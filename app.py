@@ -1,5 +1,6 @@
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
+import flask
 
 LINE_CHANNEL_ACCESS_TOKEN = "fqlgBVLmeeArUi03DQDKL5ucc80VOvJUMeaRTskfdK3DN9lrDHHkDKxA6Be8p32RBw2agZL90uQrsn2cRusqL0zG/TaFi5B/jZnGwRwPYEfNPD3TqD7I24xh5Bj9cCwOKTZ/po/0+kW8V5xaiGXeRAdB04t89/1O/w1cDnyilFU="
 
