@@ -1,18 +1,26 @@
-from linebot import LineBotApi
-from linebot.models import TextSendMessage
-import flask
+from flask import Flask, request, abort
 
-LINE_CHANNEL_ACCESS_TOKEN = "fqlgBVLmeeArUi03DQDKL5ucc80VOvJUMeaRTskfdK3DN9lrDHHkDKxA6Be8p32RBw2agZL90uQrsn2cRusqL0zG/TaFi5B/jZnGwRwPYEfNPD3TqD7I24xh5Bj9cCwOKTZ/po/0+kW8V5xaiGXeRAdB04t89/1O/w1cDnyilFU="
+from linebot import (
+   LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+   InvalidSignatureError
+)
+from linebot.models import (
+   MessageEvent, TextMessage, TextSendMessage,
+)
+import os
 
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+app = Flask(__name__)
 
+#環境変数取得
+YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
+YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
-def main():
-    user_id = "itaku21"
+line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-    message = TextSendMessage(text=f"こんにちは\n\n"
-                                    f"おはよう")
-    line_bot_api.push_message(user_id,messages=message)
+@app.route("/callback", methods=['POST'])
+def callback():
 
-    if __name__ == "__main__":
-        main()
+   signature = request.headers['X-Line-Signature']
